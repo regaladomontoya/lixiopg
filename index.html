@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RAE:Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <h1>RAE : Search</h1>
+        <form>
+          <div class="input-append">
+            <input class="input-medium busqueda" type="text" id="appendedInputButtons" placeholder="Haga su consulta...">
+            <button type="submit" class="btn" id="btsend">Consultar</button>
+          </div>
+        </form>
+          <div class="row-fluid">
+            <div id="resultado" class="span3 well">Resultado</div>
+          </div>
+      </div>
+    </div>
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $.getJSON('http://raequel.sebastianoliva.com/w/json/hola', function(data) {
+                console.log(data);
+            });
+        $('#btsend').click(function(event) {
+          var query = $('.busqueda').val().toLowerCase();
+          //var search = 'http://raequel.sebastianoliva.com/json?query=' + query;
+          var search = 'http://raequel.sebastianoliva.com/w/json/' + query;
+          $.getJSON( search, {
+            /*format: "json"*/
+          })
+          .done(function(data) {
+            $('#resultado').html('');
+            $.each( data, function( key, value ) {
+              $('#resultado').append('<span class="def">' + value + '</span><br/>');
+            });
+          })
+          event.preventDefault();
+        });
+      });
+    </script>
+  </body>
+</html>
